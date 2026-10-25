@@ -16,9 +16,16 @@ Use Gradle 8.14.3 with Java 21 and run `gradle build`. Download the generated mo
 - Riding the RCS prototype across the middle of the demo intersection on red triggers a 150 EUR *notification* and spawns a zombie labelled RCS Police Prototype that chases the player. This is only a demonstration: no fine economy, custom police NPCs or police vehicles yet.
 - The road changes blocks in the world; **use a backup or creative test world**. The signal controller resets after server restart and must be rearmed with `/rcs demo`.
 
+## District prototype (October 2026)
+- `/rcs district` generates an approximately 95x95 block demo street grid with **9 intersections and 8 simple buildings**. It replaces a substantial area of blocks. **Use a NEW, FLAT, CREATIVE test world and make a backup**. It is not undoable.
+- Every junction has four approach-specific signal masts, road stop lines and mutually exclusive N/S versus E/W green phases. Each pole has three vertically stacked lenses (red/amber/green); the illuminated lens uses a brighter material. These signals are not yet directional arrow models.
+- Crossing the center of an intersection in a car while its axis is red results in an infraction notification and a pursuing **prototype police car**. This is simple direct pursuit, not true road navigation or police AI. No persistent fines or arrests.
+- District simulation is transient, so rerun `/rcs district` after restarting a world. The older `/rcs demo` remains for backwards compatibility.
+
 ## Commands
 - `/rcs status` — displays diagnostic traffic-light state.
 - `/rcs car` — spawns the rideable demonstration vehicle.
+- `/rcs district` — creates the larger district described above.
 - `/rcs demo` — **creative/admin only**: constructs a small crossroad under your feet. Warning: this replaces existing ground blocks in a 23 × 23 area. Use a dedicated test world and flat terrain.
 
 ## Implemented
