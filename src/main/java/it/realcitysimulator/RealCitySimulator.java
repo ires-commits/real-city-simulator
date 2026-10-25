@@ -12,7 +12,7 @@ public final class RealCitySimulator implements ModInitializer {
     private static final IntersectionController DEMO_INTERSECTION = new IntersectionController();
     public static TrafficLight demoLight() { return DEMO_LIGHT; }
     @Override public void onInitialize() {
-        ServerTickEvents.END_SERVER_TICK.register(server -> { DEMO_LIGHT.tick(); DEMO_INTERSECTION.tick(); });
+        ServerTickEvents.END_SERVER_TICK.register(server -> { DEMO_LIGHT.tick(); DEMO_INTERSECTION.tick(); DemoTraffic.tickAll(); });
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
             dispatcher.register(CommandManager.literal("rcs")
                 .then(CommandManager.literal("status").executes(context -> {
@@ -26,6 +26,7 @@ public final class RealCitySimulator implements ModInitializer {
                     .executes(context -> {
                         BlockPos pos = BlockPos.ofFloored(context.getSource().getPosition());
                         int blocks = DemoIntersection.build(context.getSource().getWorld(), pos);
+                        DemoTraffic.register(context.getSource().getWorld(), pos);
                         context.getSource().sendFeedback(() -> Text.literal("RCS: demo intersection created (" + blocks + " road blocks)."), false);
                         return 1;
                     }))));
