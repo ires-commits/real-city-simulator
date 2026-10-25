@@ -28,7 +28,12 @@ public final class CarRenderer extends EntityRenderer<CarEntity> {
                        VertexConsumerProvider consumers, int light) {
         matrices.push();
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0f - MathHelper.lerp(tickDelta, entity.prevYaw, entity.getYaw())));
-        part(matrices, consumers, light, Blocks.RED_CONCRETE.getDefaultState(), 0, 0.45f, 0, 1.55f, 0.40f, 2.65f);
+        boolean police = entity.getCustomName() != null && entity.getCustomName().getString().contains("POLIZIA");
+        part(matrices, consumers, light, (police ? Blocks.BLUE_CONCRETE : Blocks.RED_CONCRETE).getDefaultState(), 0, 0.45f, 0, 1.55f, 0.40f, 2.65f);
+        if (police) {
+            part(matrices, consumers, light, Blocks.REDSTONE_BLOCK.getDefaultState(), -0.29f, 1.20f, -0.12f, 0.43f, 0.15f, 0.25f);
+            part(matrices, consumers, light, Blocks.LAPIS_BLOCK.getDefaultState(), 0.29f, 1.20f, -0.12f, 0.43f, 0.15f, 0.25f);
+        }
         part(matrices, consumers, light, Blocks.BLACK_STAINED_GLASS.getDefaultState(), 0, 0.88f, -0.12f, 1.19f, 0.55f, 1.28f);
         part(matrices, consumers, light, Blocks.GRAY_CONCRETE.getDefaultState(), 0, 0.34f, -1.30f, 1.45f, 0.20f, 0.20f);
         for (float x : new float[]{-0.79f, 0.79f}) {
