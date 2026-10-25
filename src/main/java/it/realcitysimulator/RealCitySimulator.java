@@ -6,8 +6,18 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.util.Identifier;
 
 public final class RealCitySimulator implements ModInitializer {
+    public static final EntityType<CarEntity> CAR = Registry.register(
+        Registries.ENTITY_TYPE, Identifier.of("realcitysimulator", "car"),
+        EntityType.Builder.<CarEntity>create(CarEntity::new, SpawnGroup.MISC)
+            .dimensions(1.7f, 1.0f).maxTrackingRange(10).trackingTickInterval(1)
+            .build("realcitysimulator:car"));
     private static final TrafficLight DEMO_LIGHT = new TrafficLight();
     private static final IntersectionController DEMO_INTERSECTION = new IntersectionController();
     public static TrafficLight demoLight() { return DEMO_LIGHT; }
