@@ -11,7 +11,7 @@ Early integration branch. **Not yet the complete playable city driving mod.**
 Use Gradle 8.14.3 with Java 21 and run `gradle build`. Download the generated mod JAR from the **Build Real City Simulator** action's `real-city-simulator-jar` artifact after a **successful** run. Do not install a `-sources.jar`.
 
 ## Current playable integration (prototype)
-- `/rcs car` spawns a *tamed saddled horse* labeled RCS Prototype Car; right-click to ride, use vanilla controls. This is an engineering placeholder, **not** a 3D car or actual car physics integration.
+- `/rcs car` now spawns a dedicated `realcitysimulator:car` entity, rendered with a block-built 3D car body, wheels and windows. Right-click to ride. Movement is temporarily based on Minecraft boat input/physics, **not yet realistic car physics**.
 - `/rcs demo` lays out a 23x23 crossroad and starts synchronized visual lamps (red, yellow, green).
 - Riding the RCS prototype across the middle of the demo intersection on red triggers a 150 EUR *notification* and spawns a zombie labelled RCS Police Prototype that chases the player. This is only a demonstration: no fine economy, custom police NPCs or police vehicles yet.
 - The road changes blocks in the world; **use a backup or creative test world**. The signal controller resets after server restart and must be rearmed with `/rcs demo`.
@@ -27,7 +27,7 @@ Use Gradle 8.14.3 with Java 21 and run `gradle build`. Download the generated mo
 - A simple on-demand demo intersection made from vanilla blocks
 
 ## Not implemented yet
-Custom 3D cars or real car physics controls, active NPC road traffic, registered traffic signal blocks, sustained police AI and police vehicles, realistically generated city, persistent ticket economy and multiplayer synchronization. The prototype does include basic real-world stop-line detection and a hostile vanilla NPC pursuer.
+Realistic car physics and polished 3D car models, active NPC road traffic, registered traffic signal blocks, sustained police AI and police vehicles, realistically generated city, persistent ticket economy and multiplayer synchronization. The prototype does include basic real-world stop-line detection and a hostile vanilla NPC pursuer.
 
 ## Next major development
 Add registered car entities and server-authoritative controls, road/signalling blocks, synchronized traffic agents, enforcement and police pursuit, city generation and persistence; test the whole system together before calling it version 1.0.
