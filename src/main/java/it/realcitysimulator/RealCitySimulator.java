@@ -22,7 +22,7 @@ public final class RealCitySimulator implements ModInitializer {
     private static final IntersectionController DEMO_INTERSECTION = new IntersectionController();
     public static TrafficLight demoLight() { return DEMO_LIGHT; }
     @Override public void onInitialize() {
-        ServerTickEvents.END_SERVER_TICK.register(server -> { DEMO_LIGHT.tick(); DEMO_INTERSECTION.tick(); DemoTraffic.tickAll(); });
+        ServerTickEvents.END_SERVER_TICK.register(server -> { DEMO_LIGHT.tick(); DEMO_INTERSECTION.tick(); DemoTraffic.tickAll(); DistrictTraffic.tickAll(); });
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
             dispatcher.register(CommandManager.literal("rcs")
                 .then(CommandManager.literal("status").executes(context -> {
@@ -32,6 +32,15 @@ public final class RealCitySimulator implements ModInitializer {
                 }))
                 .then(CommandManager.literal("car").requires(source -> source.hasPermissionLevel(2))
                     .executes(context -> DemoCar.spawn(context.getSource())))
+                .then(CommandManager.literal("district").requires(source -> source.hasPermissionLevel(2))
+                    .executes(context -> {
+                        BlockPos pos = BlockPos.ofFloored(context.getSource().getPosition());
+                        int blocks=DemoDistrict.build(context.getSource().getWorld(),pos);
+                        DistrictTraffic.register(context.getSource().getWorld(),pos);
+                        context.getSource().sendFeedback(
+                            () -> Text.literal("RCS: district created: 9 intersections, 8 buildings, " + blocks + " ground blocks. Use /rcs car."), false);
+                        return 1;
+                    }))
                 .then(CommandManager.literal("demo").requires(source -> source.hasPermissionLevel(2))
                     .executes(context -> {
                         BlockPos pos = BlockPos.ofFloored(context.getSource().getPosition());
