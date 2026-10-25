@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "realcitysimulator",
+  "version": "${version}",
+  "name": "Real City Simulator",
+  "description": "Foundations for an urban driving simulation.",
+  "authors": ["Real City Simulator Project"],
+  "environment": "*",
+  "entrypoints": {
+    "main": ["it.realcitysimulator.RealCitySimulator"],
+    "client": ["it.realcitysimulator.client.RealCitySimulatorClient"]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.10",
+    "minecraft": "~1.21.1",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
