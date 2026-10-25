@@ -3,9 +3,9 @@ package it.realcitysimulator;
 /** Two-phase intersection: never grants conflicting green lights. */
 public final class IntersectionController {
     public enum Signal { GREEN, YELLOW, RED }
-    private static final int GREEN_TICKS = 500;
-    private static final int YELLOW_TICKS = 60;
-    private static final int ALL_RED_TICKS = 40;
+    private static final int GREEN_TICKS = 200;
+    private static final int YELLOW_TICKS = 40;
+    private static final int ALL_RED_TICKS = 20;
     private int phase;
     private int elapsed;
     public void tick() {
