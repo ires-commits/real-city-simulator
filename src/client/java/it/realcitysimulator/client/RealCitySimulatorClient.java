@@ -1,6 +1,8 @@
 package it.realcitysimulator.client;
 
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import it.realcitysimulator.RealCitySimulator;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -9,6 +11,7 @@ import net.minecraft.text.Text;
 /** Prototype HUD: shows approximate horizontal vehicle speed when mounted. */
 public final class RealCitySimulatorClient implements ClientModInitializer {
     @Override public void onInitializeClient() {
+        EntityRendererRegistry.register(RealCitySimulator.CAR, CarRenderer::new);
         HudRenderCallback.EVENT.register((context, tickCounter) -> render(context));
     }
     private static void render(DrawContext context) {
