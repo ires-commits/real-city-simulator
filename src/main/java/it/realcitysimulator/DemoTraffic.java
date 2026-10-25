@@ -72,7 +72,7 @@ public final class DemoTraffic {
             case YELLOW -> net.minecraft.block.Blocks.YELLOW_WOOL;
             case RED -> net.minecraft.block.Blocks.RED_WOOL;
         };
-        world.setBlockState(center.add(dx, 2, dz), block.getDefaultState());
+        world.setBlockState(center.add(dx, 3, dz), block.getDefaultState());
     }
     private void summonPolice(ServerWorld world, ServerPlayerEntity player) {
         ZombieEntity officer = EntityType.ZOMBIE.create(world);
