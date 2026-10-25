@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.UUID;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.ZombieEntity;
-import net.minecraft.entity.passive.HorseEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
@@ -43,9 +42,8 @@ public final class DemoTraffic {
             previousEW = eastWest;
         }
         for (ServerPlayerEntity player : world.getPlayers()) {
-            if (!(player.getVehicle() instanceof HorseEntity horse)
-                || horse.getCustomName() == null
-                || !horse.getCustomName().getString().equals("RCS Prototype Car")) {
+            if (!(player.getVehicle() instanceof CarEntity car)
+                ) {
                 wasInside.remove(player.getUuid());
                 continue;
             }
@@ -57,7 +55,7 @@ public final class DemoTraffic {
             wasInside.put(player.getUuid(), inside);
             if (!withinArea || !inside || previous) continue;
             // Heading roughly parallel to N/S => N/S lights apply.
-            var velocity = horse.getVelocity();
+            var velocity = car.getVelocity();
             boolean northSouthTravel = Math.abs(velocity.z) >= Math.abs(velocity.x);
             var signal = northSouthTravel ? northSouth : eastWest;
             if (signal == IntersectionController.Signal.RED
