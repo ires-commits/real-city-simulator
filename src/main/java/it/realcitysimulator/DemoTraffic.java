@@ -86,5 +86,4 @@ public final class DemoTraffic {
         officer.setTarget(player);
         world.spawnEntity(officer);
     }
-    private DemoTraffic() {}
 }
