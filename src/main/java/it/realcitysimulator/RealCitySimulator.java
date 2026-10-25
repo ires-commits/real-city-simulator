@@ -20,6 +20,8 @@ public final class RealCitySimulator implements ModInitializer {
                         () -> Text.literal("Real City Simulator 0.1.0-dev.5 | demo light: " + DEMO_LIGHT.state() + " | N/S: " + DEMO_INTERSECTION.northSouth() + " | E/W: " + DEMO_INTERSECTION.eastWest()), false);
                     return 1;
                 }))
+                .then(CommandManager.literal("car").requires(source -> source.hasPermissionLevel(2))
+                    .executes(context -> DemoCar.spawn(context.getSource())))
                 .then(CommandManager.literal("demo").requires(source -> source.hasPermissionLevel(2))
                     .executes(context -> {
                         BlockPos pos = BlockPos.ofFloored(context.getSource().getPosition());
