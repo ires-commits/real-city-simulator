@@ -19,7 +19,7 @@ Use Gradle 8.14.3 with Java 21 and run `gradle build`. Download the generated mo
 ## Expanded district (October 2026)
 - `/rcs district` builds a **171 x 171 block** district, with **49 intersections**, **36 accessible two-storey buildings**, interior room partitions, tables, chairs, shelves, lighting, and ladders to reach the upper floors.
 - This command modifies or replaces blocks in a large area and does **not** provide an undo. **Use a NEW superflat creative test world**, far from anything worth keeping. Large block placement may briefly affect performance.
-- Overhead Formula-1-inspired gantries are positioned above each incoming approach. Three vertical signal lenses are surrounded by opaque black blocks and a black backing. Only one colored signal is bright; inactive signals are black. This is an interim vanilla-block model, not a fully directional textured traffic-light block.
+- Overhead Formula-1-inspired gantries are positioned above each incoming approach. Three horizontal, Formula-1-inspired signal lenses (red, amber, green) are surrounded by opaque black blocks and a black backing. Only one colored signal is bright; inactive signals are black. This is an interim vanilla-block model, not a fully directional textured traffic-light block.
 - Each intersection has independent N/S and E/W phases; passing a red light in the prototype car triggers an infraction and a basic police-car pursuer. The pursuer still uses direct chasing, **not road-aware AI**.
 - Run `/rcs district` again after reloading the world to restart demo signal controllers. Re-running also reconstructs the area.
 - The old `/rcs demo` small test intersection remains available.
