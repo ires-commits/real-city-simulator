@@ -16,11 +16,13 @@ Use Gradle 8.14.3 with Java 21 and run `gradle build`. Download the generated mo
 - Riding the RCS prototype across the middle of the demo intersection on red triggers a 150 EUR *notification* and spawns a zombie labelled RCS Police Prototype that chases the player. This is only a demonstration: no fine economy, custom police NPCs or police vehicles yet.
 - The road changes blocks in the world; **use a backup or creative test world**. The signal controller resets after server restart and must be rearmed with `/rcs demo`.
 
-## District prototype (October 2026)
-- `/rcs district` generates an approximately 95x95 block demo street grid with **9 intersections and 8 simple buildings**. It replaces a substantial area of blocks. **Use a NEW, FLAT, CREATIVE test world and make a backup**. It is not undoable.
-- Every junction has four approach-specific signal masts, road stop lines and mutually exclusive N/S versus E/W green phases. Each pole has three vertically stacked lenses (red/amber/green); the illuminated lens uses a brighter material. These signals are not yet directional arrow models.
-- Crossing the center of an intersection in a car while its axis is red results in an infraction notification and a pursuing **prototype police car**. This is simple direct pursuit, not true road navigation or police AI. No persistent fines or arrests.
-- District simulation is transient, so rerun `/rcs district` after restarting a world. The older `/rcs demo` remains for backwards compatibility.
+## Expanded district (October 2026)
+- `/rcs district` builds a **171 x 171 block** district, with **49 intersections**, **36 accessible two-storey buildings**, interior room partitions, tables, chairs, shelves, lighting, and ladders to reach the upper floors.
+- This command modifies or replaces blocks in a large area and does **not** provide an undo. **Use a NEW superflat creative test world**, far from anything worth keeping. Large block placement may briefly affect performance.
+- Overhead Formula-1-inspired gantries are positioned above each incoming approach. Three vertical signal lenses are surrounded by opaque black blocks and a black backing. Only one colored signal is bright; inactive signals are black. This is an interim vanilla-block model, not a fully directional textured traffic-light block.
+- Each intersection has independent N/S and E/W phases; passing a red light in the prototype car triggers an infraction and a basic police-car pursuer. The pursuer still uses direct chasing, **not road-aware AI**.
+- Run `/rcs district` again after reloading the world to restart demo signal controllers. Re-running also reconstructs the area.
+- The old `/rcs demo` small test intersection remains available.
 
 ## Commands
 - `/rcs status` — displays diagnostic traffic-light state.
