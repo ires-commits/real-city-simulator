@@ -89,11 +89,11 @@ public final class DistrictTraffic {
         // Only the driver-facing front is colored. Side walls and opaque back stay black.
         BlockPos face=c.add(dx,0,dz);
         w.setBlockState(face.up(8),
-            (signal==IntersectionController.Signal.RED?Blocks.REDSTONE_BLOCK:Blocks.RED_CONCRETE).getDefaultState(),3);
+            (signal==IntersectionController.Signal.RED?Blocks.REDSTONE_BLOCK:Blocks.BLACK_CONCRETE).getDefaultState(),3);
         w.setBlockState(face.up(7),
-            (signal==IntersectionController.Signal.YELLOW?Blocks.GOLD_BLOCK:Blocks.YELLOW_CONCRETE).getDefaultState(),3);
+            (signal==IntersectionController.Signal.YELLOW?Blocks.GOLD_BLOCK:Blocks.BLACK_CONCRETE).getDefaultState(),3);
         w.setBlockState(face.up(6),
-            (signal==IntersectionController.Signal.GREEN?Blocks.EMERALD_BLOCK:Blocks.GREEN_CONCRETE).getDefaultState(),3);
+            (signal==IntersectionController.Signal.GREEN?Blocks.EMERALD_BLOCK:Blocks.BLACK_CONCRETE).getDefaultState(),3);
     }
     private void dispatch(ServerWorld world,ServerPlayerEntity target,BlockPos intersection) {
         CarEntity patrol=patrols.get(target.getUuid());
