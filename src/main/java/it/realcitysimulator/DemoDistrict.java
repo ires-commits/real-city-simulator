@@ -117,14 +117,19 @@ public final class DemoDistrict {
         BlockPos mast=c.add(x+tx*5,0,z+tz*5);
         for(int h=0;h<=10;h++) place(w,mast.up(h),Blocks.IRON_BLOCK);
         for(int t=-5;t<=5;t++) place(w,c.add(x+tx*t,10,z+tz*t),Blocks.IRON_BARS);
-        for(int y=5;y<=9;y++) for(int t=-1;t<=1;t++) {
-            if(y>=6&&y<=8&&t==0) continue;
-            place(w,c.add(x+tx*t,y,z+tz*t),Blocks.BLACK_CONCRETE);
+        // Horizontal F1-style three-light bar (red, amber, green).
+        // Black side/top/bottom visor and a solid rear block the other approaches.
+        for(int t=-2;t<=2;t++) {
+            place(w,c.add(x+tx*t,8,z+tz*t),Blocks.BLACK_CONCRETE);
+            place(w,c.add(x+tx*t,6,z+tz*t),Blocks.BLACK_CONCRETE);
         }
-        // Opaque rear: the three lenses can only be read from their intended approach.
-        for(int y=5;y<=9;y++) for(int t=-1;t<=1;t++) {
+        for(int y=6;y<=8;y++) {
+            place(w,c.add(x+tx*2,y,z+tz*2),Blocks.BLACK_CONCRETE);
+            place(w,c.add(x-tx*2,y,z-tz*2),Blocks.BLACK_CONCRETE);
+        }
+        for(int t=-2;t<=2;t++) for(int y=6;y<=8;y++) {
             place(w,c.add(x-outX+tx*t,y,z-outZ+tz*t),Blocks.BLACK_CONCRETE);
         }
-        for(int y=6;y<=8;y++) place(w,c.add(x,y,z),Blocks.BLACK_CONCRETE);
+        for(int t=-1;t<=1;t++) place(w,c.add(x+tx*t,7,z+tz*t),Blocks.BLACK_CONCRETE);
     }
 }
