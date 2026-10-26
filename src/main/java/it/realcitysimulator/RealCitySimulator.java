@@ -38,7 +38,7 @@ public final class RealCitySimulator implements ModInitializer {
                         int blocks=DemoDistrict.build(context.getSource().getWorld(),pos);
                         DistrictTraffic.register(context.getSource().getWorld(),pos);
                         context.getSource().sendFeedback(
-                            () -> Text.literal("RCS: district created: 9 intersections, 8 buildings, " + blocks + " ground blocks. Use /rcs car."), false);
+                            () -> Text.literal("RCS: district created: 49 intersections, 36 furnished buildings, " + blocks + " ground blocks. Use /rcs car."), false);
                         return 1;
                     }))
                 .then(CommandManager.literal("demo").requires(source -> source.hasPermissionLevel(2))
