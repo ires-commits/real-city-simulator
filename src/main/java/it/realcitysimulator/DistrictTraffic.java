@@ -9,35 +9,35 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
-/** Nine-intersection district: directional signal groups and simple patrol response.
+/** Forty-nine-intersection district: directional signal groups and simple patrol response.
  * Transient demo state; use /rcs district again after restarting the world.
  */
 public final class DistrictTraffic {
     private static final Map<ServerWorld, DistrictTraffic> ACTIVE = new HashMap<>();
     private final BlockPos origin;
-    private final IntersectionController[] controllers = new IntersectionController[9];
+    private final IntersectionController[] controllers = new IntersectionController[DemoDistrict.COUNT * DemoDistrict.COUNT];
     private final Map<UUID, String> lastIntersection = new HashMap<>();
     private final Map<UUID, Integer> lastViolation = new HashMap<>();
     private final Map<UUID, CarEntity> patrols = new HashMap<>();
     private int tick;
-    private final IntersectionController.Signal[] lastNorthSouth = new IntersectionController.Signal[9];
+    private final IntersectionController.Signal[] lastNorthSouth = new IntersectionController.Signal[DemoDistrict.COUNT * DemoDistrict.COUNT];
     private final IntersectionController.Signal[] lastEastWest = new IntersectionController.Signal[9];
 
     private DistrictTraffic(BlockPos origin) {
         this.origin = origin.toImmutable();
-        for(int i=0;i<9;i++) controllers[i]=new IntersectionController();
+        for(int i=0;i<controllers.length;i++) controllers[i]=new IntersectionController();
     }
     public static void register(ServerWorld world,BlockPos origin) { ACTIVE.put(world,new DistrictTraffic(origin)); }
     public static void tickAll() {
         for(var entry: ACTIVE.entrySet()) entry.getValue().tick(entry.getKey());
     }
     private BlockPos center(int ix,int iz) {
-        return origin.add((ix-1)*DemoDistrict.SPACING,0,(iz-1)*DemoDistrict.SPACING);
+        return origin.add((ix-DemoDistrict.RADIUS)*DemoDistrict.SPACING,0,(iz-DemoDistrict.RADIUS)*DemoDistrict.SPACING);
     }
     private void tick(ServerWorld world) {
         tick++;
-        for(int ix=0;ix<3;ix++) for(int iz=0;iz<3;iz++) {
-            int index=ix*3+iz;
+        for(int ix=0;ix<DemoDistrict.COUNT;ix++) for(int iz=0;iz<DemoDistrict.COUNT;iz++) {
+            int index=ix*DemoDistrict.COUNT+iz;
             controllers[index].tick();
             var ns=controllers[index].northSouth();
             var ew=controllers[index].eastWest();
@@ -64,9 +64,9 @@ public final class DistrictTraffic {
             if(!inside) lastIntersection.remove(player.getUuid());
             else if(!key.equals(old)) {
                 lastIntersection.put(player.getUuid(),key);
-                int ix=Math.round((near.getX()-origin.getX())/(float)DemoDistrict.SPACING)+1;
-                int iz=Math.round((near.getZ()-origin.getZ())/(float)DemoDistrict.SPACING)+1;
-                if(ix<0||ix>2||iz<0||iz>2) continue;
+                int ix=Math.round((near.getX()-origin.getX())/(float)DemoDistrict.SPACING)+DemoDistrict.RADIUS;
+                int iz=Math.round((near.getZ()-origin.getZ())/(float)DemoDistrict.SPACING)+DemoDistrict.RADIUS;
+                if(ix<0||ix>=DemoDistrict.COUNT||iz<0||iz>=DemoDistrict.COUNT) continue;
                 Vec3d v=car.getVelocity();
                 boolean ns=Math.abs(v.z)>=Math.abs(v.x);
                 var phase=ns?controllers[ix*3+iz].northSouth():controllers[ix*3+iz].eastWest();
@@ -81,16 +81,19 @@ public final class DistrictTraffic {
         updatePatrols(world);
     }
     private BlockPos nearestIntersection(Vec3d pos) {
-        int ix=Math.max(-1,Math.min(1,(int)Math.round((pos.x-origin.getX())/DemoDistrict.SPACING)));
+        int ix=Math.max(-DemoDistrict.RADIUS,Math.min(DemoDistrict.RADIUS,(int)Math.round((pos.x-origin.getX())/DemoDistrict.SPACING)));
         int iz=Math.max(-1,Math.min(1,(int)Math.round((pos.z-origin.getZ())/DemoDistrict.SPACING)));
         return origin.add(ix*DemoDistrict.SPACING,0,iz*DemoDistrict.SPACING);
     }
     private void show(ServerWorld w,BlockPos c,int dx,int dz,IntersectionController.Signal signal) {
-        BlockPos foot=c.add(dx,0,dz);
-        // Three vertically aligned lens indicators: top red, middle amber, bottom green.
-        w.setBlockState(foot.up(6), (signal==IntersectionController.Signal.RED?Blocks.REDSTONE_BLOCK:Blocks.RED_CONCRETE).getDefaultState(),3);
-        w.setBlockState(foot.up(5), (signal==IntersectionController.Signal.YELLOW?Blocks.GOLD_BLOCK:Blocks.YELLOW_CONCRETE).getDefaultState(),3);
-        w.setBlockState(foot.up(4), (signal==IntersectionController.Signal.GREEN?Blocks.EMERALD_BLOCK:Blocks.GREEN_CONCRETE).getDefaultState(),3);
+        // Only the driver-facing front is colored. Side walls and opaque back stay black.
+        BlockPos face=c.add(dx,0,dz);
+        w.setBlockState(face.up(8),
+            (signal==IntersectionController.Signal.RED?Blocks.REDSTONE_BLOCK:Blocks.RED_CONCRETE).getDefaultState(),3);
+        w.setBlockState(face.up(7),
+            (signal==IntersectionController.Signal.YELLOW?Blocks.GOLD_BLOCK:Blocks.YELLOW_CONCRETE).getDefaultState(),3);
+        w.setBlockState(face.up(6),
+            (signal==IntersectionController.Signal.GREEN?Blocks.EMERALD_BLOCK:Blocks.GREEN_CONCRETE).getDefaultState(),3);
     }
     private void dispatch(ServerWorld world,ServerPlayerEntity target,BlockPos intersection) {
         CarEntity patrol=patrols.get(target.getUuid());
