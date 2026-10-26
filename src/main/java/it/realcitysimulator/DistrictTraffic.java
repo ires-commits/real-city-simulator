@@ -86,13 +86,15 @@ public final class DistrictTraffic {
         return origin.add(ix*DemoDistrict.SPACING,0,iz*DemoDistrict.SPACING);
     }
     private void show(ServerWorld w,BlockPos c,int dx,int dz,IntersectionController.Signal signal) {
-        // Only the driver-facing front is colored. Side walls and opaque back stay black.
+        // Driver-facing horizontal lenses: red, amber, green. Opaque housing/back
+        // is built by DemoDistrict. Only the active lens is colored.
+        int tx=(dz!=0)?1:0, tz=(dx!=0)?1:0;
         BlockPos face=c.add(dx,0,dz);
-        w.setBlockState(face.up(8),
+        w.setBlockState(face.add(-tx,7,-tz),
             (signal==IntersectionController.Signal.RED?Blocks.REDSTONE_BLOCK:Blocks.BLACK_CONCRETE).getDefaultState(),3);
         w.setBlockState(face.up(7),
             (signal==IntersectionController.Signal.YELLOW?Blocks.GOLD_BLOCK:Blocks.BLACK_CONCRETE).getDefaultState(),3);
-        w.setBlockState(face.up(6),
+        w.setBlockState(face.add(tx,7,tz),
             (signal==IntersectionController.Signal.GREEN?Blocks.EMERALD_BLOCK:Blocks.BLACK_CONCRETE).getDefaultState(),3);
     }
     private void dispatch(ServerWorld world,ServerPlayerEntity target,BlockPos intersection) {
